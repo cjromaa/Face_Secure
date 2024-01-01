@@ -6,22 +6,22 @@ This documentation outlines the process flow for the facial recognition system t
 
 ## Process Flow
 
-1. **Face Detection:**
-   ![Analyzing Face](1.Analyzing_Face.png)
+1. **Analyzing Face:**
+   ![Analyzing Face]
    - The system starts by capturing a live feed from the camera.
    - It then analyzes the incoming frames to detect any faces present using a face detection algorithm.
+   - User must enter [S] to send a photo of your face to the machine_learning.py so it can determine who the face belongs to
 
-2. **Face Analysis:**
-   ![After Analyzing Face](2.After_Analyzing_Face.png)
-   - Once a face is detected, the system begins the analysis.
-   - User must enter [S] to send a photo of your face to the machine_learning.py so it can determine who the face belongs too
+2. **After Analyzing Face:**
+   ![After Analyzing Face]
+   - After analysis, machine_learning.py will return who the face belongs to
 
 3. **Terminal Output:**
-   ![Example Terminal Output](3.Example_Terminal_Output.png)
+   ![Example Terminal Output]
    - The identified face is matched against a database of known individuals.
    - A match percentage is calculated, and if the threshold is met, the identification is considered successful.
 
 4. **Personalized HTML Page Generation:**
-   ![ChatGPT API creating custom HTML page of individual](4.ChatGPT_API_creating_custom_HTML_page_of_individual.png)
+   ![ChatGPT API creating custom HTML page of individual]
    - Post-identification, the system leverages the OpenAI GPT-4 model to generate a custom HTML page.
    - This page includes the individual's information, such as gender, ethnicity, address, occupation, and educational details.
