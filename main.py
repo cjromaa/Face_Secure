@@ -58,7 +58,7 @@ def gpt_api(gpt_info, name, filename):
     
     # Starting up the file automatically
     try:
-        os.startfile("D:\\cidjo\\Documents\\Python Coding\\Capstone Project\\Face_Secure\\test.html")
+        os.startfile(" ") # Enter the folder path of your test.html file
     except Exception as e:
         print(f"An error occurred: {e}")
     
@@ -174,7 +174,7 @@ def face_capture():
                         # Generate a unique filename with timestamp
                         timestamp = current_time.strftime("%Y%m%d_%H%M%S")
                         filename = f"face_image_{timestamp}.jpg"
-                        current_path = "D:\\cidjo\\Documents\\Python Coding\\Capstone Project\\Face_Secure"
+                        current_path = " " # Enter your current path
                         image_path = os.path.join(current_path, filename)
                         
 
