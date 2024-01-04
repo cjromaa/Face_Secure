@@ -145,34 +145,20 @@ def analyze(filename, model, lb):
             return text, failed, lb.classes_
         
         # i represents what face matches with what person
-        # Right now we only tested with 6 people but you are welcomed to chang anything if needed
-        # You can print the "lb.classes" to see what number matches with the individual
-        if i == 0:
-            print("Face detected in image: ")
-            face = ''
-        elif i == 1:
-            print("Face detected in image: ")
-            face = ''
-        elif i == 2:
-            print("Face detected in image: ")
-            face = ''
-        elif i == 3:
-            print("Face detected in image: ")
-            face = ''
-        elif i == 4:
-            print("Face detected in image: ")
-            face = ''
-        elif i == 5:
-            print("Face detected in image: ")
-            face = ''
-        elif i == 6:
-            print("Face detected in image: ")
-            face = ''
-            
+        # Right now we only tested with 6 people but you are welcome to change anything if needed
+        # You can print the "lb.classes" to see what number matches with each individual
+        faces = {0: '', 1: '', 2: '', 3: '', 4: '', 5: '', 6: '', 7: '', 8: ''}
+        # Get the name corresponding to the index 'i', or 'Unknown' if not found
+        face = faces.get(i, 'Unknown')
+
+        if face != 'Unknown':
+            print(f"Face detected in image: {face}")
         else:
             print("Error")
+
         print("Classes:", lb.classes_)
-        c+=1
-    return text, face, lb.classes_
+        c += 1
+
+        return text, face, lb.classes_
 
 machine_learning()
