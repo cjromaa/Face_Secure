@@ -10,6 +10,7 @@ import pickle
 from datetime import datetime
 from machine_learning import machine_learning
 from machine_learning import analyze
+import time
 
 # Cascades
 face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml')
@@ -58,10 +59,25 @@ def gpt_api(gpt_info, name, filename):
     
     # Starting up the file automatically
     try:
-        os.startfile(" ") # Enter the folder path of your test.html file
+        os.startfile(" ") # Starts the file of wherever your test.html file is
     except Exception as e:
         print(f"An error occurred: {e}")
-    
+
+def add_user():
+    import autopic
+    import adding_users
+    full_name_info = input("Enter your full name: ")
+    ethnicity_info = input("Enter your ethnicity: ")
+    gender_info = input("Enter your gender: ")
+    address_info = input("Enter city you live in: ")
+    employment_info = input("Enter employment info: ")
+    school_info = input("Enter school you attend: ")
+    major_info = input("Enter major you're currently pursuing: ")
+    print("WE WILL NOW BE TAKING PHOTOS OF YOUR FACE")
+    time.sleep(1)
+    autopic.face_capture(full_name_info)
+    adding_users.add_to_sql_database(full_name_info,ethnicity_info,gender_info,address_info,employment_info,school_info,major_info)
+    face_capture()
     
 # Connecting to SQL database
 def sql_connect():
@@ -146,6 +162,7 @@ def face_capture():
     last_capture_time = None
     capture_delay = 0  # seconds delay between captures
     text = 'Analyzing....'
+    text_2 = ''
     
     # Load model and LabelBinarizer here
     model = load_model('my_model.h5')
@@ -174,7 +191,7 @@ def face_capture():
                         # Generate a unique filename with timestamp
                         timestamp = current_time.strftime("%Y%m%d_%H%M%S")
                         filename = f"face_image_{timestamp}.jpg"
-                        current_path = " " # Enter your current path
+                        current_path = " " # Wherever your current_path is
                         image_path = os.path.join(current_path, filename)
                         
 
@@ -185,7 +202,6 @@ def face_capture():
 
                         # Sending the photo to the machine learning to determine who the person is
                         person_identified, individual, classes = analyze(image_path, model, lb)
-                        print("Person Identified:", person_identified)
                         person_identified_text = f'{person_identified}...'
 
                         # Font for person_identified
@@ -200,10 +216,11 @@ def face_capture():
 
                         # Accessing and Querying SQL database
                         if individual in classes:
-                            #print(classes)
+                            print("Person Identified:", person_identified)
                             access_database(individual, filename)
                         else:
-                            print(individual) # This will print that the user is not recognized in the database 
+                            print(individual) # This will print that the user is not recognized in the database
+                            add_user() 
             
             # Font for person_identified
             font = cv2.FONT_HERSHEY_SIMPLEX
@@ -212,6 +229,20 @@ def face_capture():
             thickness = 2
 
             cv2.putText(frame, text, (x, y - 10), font, fontScale, color, thickness)
+
+            # Welcome text
+            welcome_text = f'Welcome {text_2}'
+            # Get frame dimensions
+            frame_height, frame_width = frame.shape[:2]
+
+            # Get the text size
+            text_size = cv2.getTextSize(welcome_text, font, fontScale, thickness)[0]
+
+            # Calculate text position (top right)
+            text_x = frame_width - text_size[0] - 10  # 10 pixels margin from right
+            text_y = text_size[1] + 10  # 10 pixels margin from top
+
+            cv2.putText(frame, welcome_text, (text_x, text_y), font, fontScale, color, thickness)
                         
             cv2.imshow('Face Secure Authentication', frame)
             
