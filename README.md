@@ -1,6 +1,6 @@
 # Secure Facial Recognition System
 
-## PLEASE NOTE THIS IS STILL A WIP PROJECT!
+## PLEASE NOTE THIS IS STILL A WIP PROJECT AND IS NOT FULLY READY TO BE DEPLOYED!
 
 ## Description
 This project, titled "Secure Facial Recognition System," integrates advanced technologies such as OpenCV, TensorFlow, and the OpenAI GPT API to create a comprehensive facial recognition and information retrieval system. The system is capable of identifying individuals from a dataset of facial images, querying a MySQL database for their information, and then dynamically generating a personalized HTML page with this information.
@@ -22,6 +22,7 @@ This project, titled "Secure Facial Recognition System," integrates advanced tec
 - **Manual User Entry**: Implementing a feature to manually enter new users into the system. This will allow for adding individuals who are not already in the database.
 - **Database Integration**: Enhancing the system to automatically update and add new entries to the MySQL database. This integration will ensure that the database remains current and comprehensive.
 - **User Interface for Data Entry**: Developing a user-friendly interface for entering and managing user data, making it easier to add or update information without directly interacting with the database.
+- **User GUI**: Interactive and user friendly GUI
 
 ## Setup and Usage
 1. **Dependencies**: Ensure you have Python, OpenCV, TensorFlow, Keras, and MySQL installed.
