@@ -1,6 +1,6 @@
 import cv2
 import os
-import openai
+import openai    
 from openai import OpenAI
 import mysql.connector
 from mysql.connector import Error
