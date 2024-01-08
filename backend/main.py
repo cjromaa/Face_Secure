@@ -10,6 +10,7 @@ import pickle
 from datetime import datetime
 from machine_learning import machine_learning
 from machine_learning import analyze
+import main_gui
 import time
 
 # Cascades
