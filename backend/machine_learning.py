@@ -3,6 +3,8 @@ import os
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
+from keras import layers
+from keras import models
 from keras.models import Sequential, load_model
 from keras.layers import Dense
 from keras.optimizers import SGD
@@ -38,10 +40,10 @@ def machine_learning():
             imagepath = os.path.join(folder_path, filename)
             image = cv2.imread(imagepath)
             image = cv2.resize(image, (32, 32))
-            image = image.flatten()
+            #image = image.flatten()
             data.append(image)
 
-            # Extracting the class label from the image path and update the labels list
+            # Extracting the class label from the image path and updating the labels list
             label = imagepath.split(os.path.sep) [-2]
             labels.append(label)
     print(data) 
@@ -59,15 +61,23 @@ def machine_learning():
     y_train = lb.fit_transform(y_train)
     y_test = lb.transform(y_test)
 
-    # define the 3072-1024-512-3 architecture using Keras
-    model = Sequential()
-    model.add(Dense(1024, input_shape=(3072,), activation="sigmoid"))
-    model.add(Dense(512, activation="sigmoid"))
-    model.add(Dense(len(lb.classes_), activation="softmax"))
+    # Implementing the CNN Architecure
+    # Creating the Convolutional Base
+    model = models.Sequential()
+    model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
+    model.add(layers.MaxPooling2D((2, 2)))
+    model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+    model.add(layers.MaxPooling2D((2, 2)))
+    model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+
+    # Add Dense Layers on Top
+    model.add(layers.Flatten())
+    model.add(layers.Dense(64, activation='relu'))
+    model.add(layers.Dense(8, activation='softmax')) # Match the number with the number of classes (amount of folders training)
 
     # Learning Rate
     INIT_LR = 0.01
-    EPOCHS = 150
+    EPOCHS = 30
 
     # Compiling the model
     print("[INFO] training network...")
@@ -84,16 +94,12 @@ def machine_learning():
     # Load the model for prediction
     model = load_model('my_model.h5')
 
-
     # Process the image for prediction
-    img = cv2.imread(image_path)
+    img = cv2.imread(image_path7)
     img = cv2.resize(img, (32, 32))
-    img = img.flatten()
     img = np.array([img], dtype="float") / 255.0
 
-    # Unedited img for CV
-    unedited_img = cv2.imread(image_path5, 0)
-    
+
     # Make a prediction
     predictions = model.predict(img)
     print(predictions)
@@ -112,21 +118,26 @@ def machine_learning():
         print(failed)
     else:
         print(text)
+        #cv2.putText(unedited_img, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
+	    #(0, 0, 255), 2)
+        #cv2.imshow("Image", unedited_img)
+        #cv2.waitKey(0)
     return model, lb, x_train, x_test, y_train, y_test, data
 
 # section is used for my main.py code to access
 def analyze(filename, model, lb):
     # Load the model for prediction
     c = 0 
-    # Runs the picture 3x to make confirm that it's the right person
+    # Runs the picture 3x to confirm that it's the right person
     while c < 3:
         model = load_model('my_model.h5')
 
         # Process the image for prediction
         img = cv2.imread(filename)
         img = cv2.resize(img, (32, 32))
-        img = img.flatten()
+        #img = img.flatten()
         img = np.array([img], dtype="float") / 255.0
+        #print(filename)
             
         # Make a prediction
         predictions = model.predict(img)
