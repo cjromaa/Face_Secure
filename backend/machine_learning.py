@@ -135,41 +135,20 @@ def analyze(filename, model, lb):
         # Process the image for prediction
         img = cv2.imread(filename)
         img = cv2.resize(img, (32, 32))
-        #img = img.flatten()
         img = np.array([img], dtype="float") / 255.0
-        #print(filename)
             
         # Make a prediction
         predictions = model.predict(img)
-        #print(predictions)
         i = predictions.argmax(axis=1) [0]
-        #print(i)
         real_label = lb.classes_[i]
 
         text = "{}: {:.2f}%".format(real_label, predictions[0][i] * 100)
-        #print(text)
 
         # Determining if the face meets the proper criteria of 80% match
         failed = "Does not meet criteria, press [S] to try again"
 
         if predictions[0][i] * 100 < 70:
             return text, failed, lb.classes_
-        
-        # i represents what face matches with what person
-        # Right now we only tested with 6 people but you are welcome to change anything if needed
-        # You can print the "lb.classes" to see what number matches with each individual
-        faces = {0: '', 1: '', 2: '', 3: '', 4: '', 5: '', 6: '', 7: '', 8: ''}
-        # Get the name corresponding to the index 'i', or 'Unknown' if not found
-        face = faces.get(i, 'Unknown')
-
-        if face != 'Unknown':
-            print(f"Face detected in image: {face}")
-        else:
-            print("Error")
-
-        print("Classes:", lb.classes_)
-        c += 1
-
         return text, face, lb.classes_
 
 machine_learning()
