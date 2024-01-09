@@ -257,6 +257,3 @@ def face_capture():
         # Release the capture and close any open windows
         cap.release()
         cv2.destroyAllWindows()
-
-if sql_connect() == None:
-    face_capture()
