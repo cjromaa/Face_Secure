@@ -113,42 +113,35 @@ def machine_learning():
     # Determining if the face meets the proper criteria of 80% match
     failed = "Does not meet criteria, press [S] to try again"
         
-    if predictions[0][i] * 100 < 70:
+    if predictions[0][i] * 100 < 90:
         print(text)
         print(failed)
     else:
         print(text)
-        #cv2.putText(unedited_img, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
-	    #(0, 0, 255), 2)
-        #cv2.imshow("Image", unedited_img)
-        #cv2.waitKey(0)
     return model, lb, x_train, x_test, y_train, y_test, data
 
 # section is used for my main.py code to access
 def analyze(filename, model, lb):
     # Load the model for prediction
-    c = 0 
-    # Runs the picture 3x to confirm that it's the right person
-    while c < 3:
-        model = load_model('my_model.h5')
+    model = load_model('my_model.h5')
 
-        # Process the image for prediction
-        img = cv2.imread(filename)
-        img = cv2.resize(img, (32, 32))
-        img = np.array([img], dtype="float") / 255.0
+    # Process the image for prediction
+    img = cv2.imread(filename)
+    img = cv2.resize(img, (32, 32))
+    img = np.array([img], dtype="float") / 255.0
             
-        # Make a prediction
-        predictions = model.predict(img)
-        i = predictions.argmax(axis=1) [0]
-        real_label = lb.classes_[i]
+    # Make a prediction
+    predictions = model.predict(img)
+    i = predictions.argmax(axis=1) [0]
+    real_label = lb.classes_[i]
 
-        text = "{}: {:.2f}%".format(real_label, predictions[0][i] * 100)
+    text = "{}: {:.2f}%".format(real_label, predictions[0][i] * 100)
 
-        # Determining if the face meets the proper criteria of 80% match
-        failed = "Does not meet criteria, press [S] to try again"
+    # Determining if the face meets the proper criteria of 80% match
+    failed = "Does not meet criteria, press [S] to try again"
 
-        if predictions[0][i] * 100 < 70:
-            return text, failed, lb.classes_
-        return text, face, lb.classes_
+    if predictions[0][i] * 100 < 90:
+        return text, failed, lb.classes_
+    return text, real_label, lb.classes_
 
 machine_learning()
