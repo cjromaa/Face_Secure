@@ -81,18 +81,18 @@ def machine_learning():
 
     # Compiling the model
     print("[INFO] training network...")
-    opt = SGD(lr=INIT_LR)
-    model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
+    opt = SGD(learning_rate=INIT_LR)
+    model.compile(loss="categorical_crossentropy", optimizer='adam', metrics=["accuracy"])
     H = model.fit(x=x_train, y=y_train, validation_data=(x_test, y_test),
 	epochs=EPOCHS, batch_size=32)
 
     # Save the model and label binarizer
-    model.save('my_model.h5')
+    model.save('my_model.keras')
     with open('lb.pickle', 'wb') as file:
         pickle.dump(lb, file)
 
     # Load the model for prediction
-    model = load_model('my_model.h5')
+    model = load_model('my_model.keras')
 
     # Process the image for prediction
     img = cv2.imread(image_path7)
@@ -123,7 +123,7 @@ def machine_learning():
 # section is used for my main.py code to access
 def analyze(filename, model, lb):
     # Load the model for prediction
-    model = load_model('my_model.h5')
+    model = load_model('my_model.keras')
 
     # Process the image for prediction
     img = cv2.imread(filename)
