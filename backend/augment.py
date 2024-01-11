@@ -27,4 +27,3 @@ def augment_images(folder_name):
         image = image.reshape((1,) + image.shape)
         for batch in datagen.flow(image, batch_size = 1, save_to_dir=folder_path, save_prefix = 'aug', save_format = 'jpg'):
             break
-augment_images('') # Enter folder name
