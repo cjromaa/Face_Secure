@@ -77,6 +77,9 @@ def add_user():
     print("WE WILL NOW BE TAKING PHOTOS OF YOUR FACE")
     time.sleep(1)
     autopic.face_capture(full_name_info)
+    print('Augmenting data now')
+    augmentation.augment_images(full_name_info)
+    print('Finished')
     adding_users.add_to_sql_database(full_name_info,ethnicity_info,gender_info,address_info,employment_info,school_info,major_info)
     face_capture()
     
@@ -166,7 +169,7 @@ def face_capture():
     text_2 = ''
     
     # Load model and LabelBinarizer here
-    model = load_model('my_model.h5')
+    model = load_model('my_model.keras')
     with open('lb.pickle', 'rb') as file:
         lb = pickle.load(file)
 
