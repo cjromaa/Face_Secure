@@ -144,4 +144,6 @@ def analyze(filename, model, lb):
         return text, failed, lb.classes_
     return text, real_label, lb.classes_
 
-machine_learning()
+if __name__ == "__main__":
+    machine_learning()
+
