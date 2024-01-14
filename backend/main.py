@@ -260,3 +260,6 @@ def face_capture():
         # Release the capture and close any open windows
         cap.release()
         cv2.destroyAllWindows()
+        
+if __name__ == "__main__":
+    import main_gui
