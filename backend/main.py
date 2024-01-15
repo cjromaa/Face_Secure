@@ -19,6 +19,9 @@ face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2
 # Folder path
 folder_path = "" # Enter your folder path
 
+# Current user
+current_user_name = None
+
 # Using GPT API to create HTML page that has individual information
 def gpt_api(gpt_info, name, filename):
     print("Building Personal HTML page....")
@@ -63,6 +66,24 @@ def gpt_api(gpt_info, name, filename):
         os.startfile(" ") # Starts the file of wherever your test.html file is
     except Exception as e:
         print(f"An error occurred: {e}")
+
+    # Setting the global username to the individual that is being accessed in the database
+    global current_user_name
+    current_user_name = name
+
+    # Opening up the individual portal
+    user_input = input("Do you want to update any of your information? [Y/N]: ")
+    if user_input.upper() == 'Y':
+        import portal 
+    else:
+        print("Not updating information")
+
+def updated_info(info_type, info):
+    global current_user_name
+    name = current_user_name
+    from sql_update import edit_sql_database
+    edit_sql_database(name,info_type,info)
+    import portal
 
 def add_user():
     import autopic
