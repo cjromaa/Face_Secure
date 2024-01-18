@@ -86,23 +86,54 @@ def updated_info(info_type, info):
     import portal
 
 def add_user():
+    # Necessary imports 
     import autopic
     import adding_users
+    import augmentation
+
+    # User entering information for the SQL database
     full_name_info = input("Enter your full name: ")
     ethnicity_info = input("Enter your ethnicity: ")
     gender_info = input("Enter your gender: ")
+    age_info = input("Enter your age: ")
     address_info = input("Enter city you live in: ")
     employment_info = input("Enter employment info: ")
     school_info = input("Enter school you attend: ")
     major_info = input("Enter major you're currently pursuing: ")
+    phone_number_info = input("Enter phone number: ")
+
     print("WE WILL NOW BE TAKING PHOTOS OF YOUR FACE")
     time.sleep(1)
-    autopic.face_capture(full_name_info)
-    print('Augmenting data now')
+
+    # Taking photos of individual's face
+    autopic.face_capture(full_name_info) 
+
+    # Augmenting the data
+    print('Augmenting the data now')
     augmentation.augment_images(full_name_info)
     print('Finished')
-    adding_users.add_to_sql_database(full_name_info,ethnicity_info,gender_info,address_info,employment_info,school_info,major_info)
-    face_capture()
+
+    # Adding the user to the database
+    adding_users.add_to_sql_database(full_name_info,ethnicity_info,gender_info,age_info,address_info,employment_info,school_info,major_info, phone_number_info)
+    main()
+
+def write_log(individual):
+    current_time = datetime.now()
+    file_to_write = f'{individual} accessed database at {current_time}'
+    
+    # Opening log.txt
+    with open("log.txt", "a") as txt:
+        txt.write("\n" + file_to_write)
+    send_email()
+
+def warning_log():
+    current_time = datetime.now()
+    file_to_write = f"Unknown user tried to access database at {current_time}"
+
+    # Opening log.txt
+    with open("log.txt", "a") as txt:
+        txt.write("\n" + file_to_write)
+    send_email()
     
 # Connecting to SQL database
 def sql_connect():
@@ -242,10 +273,11 @@ def face_capture():
                         # Accessing and Querying SQL database
                         if individual in classes:
                             print("Person Identified:", person_identified)
+                            write_log(individual)
                             access_database(individual, filename)
                         else:
                             print(individual) # This will print that the user is not recognized in the database
-                            add_user() 
+                            warning_log()
             
             # Font for person_identified
             font = cv2.FONT_HERSHEY_SIMPLEX
