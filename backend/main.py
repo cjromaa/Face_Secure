@@ -12,6 +12,7 @@ from machine_learning import machine_learning
 from machine_learning import analyze
 import main_gui
 import time
+from log import send_email
 
 # Cascades
 face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml')
