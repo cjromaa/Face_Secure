@@ -23,6 +23,9 @@ folder_path = "" # Enter your folder path
 # Current user
 current_user_name = None
 
+# Warning
+warning = 0
+
 # Using GPT API to create HTML page that has individual information
 def gpt_api(gpt_info, name, filename):
     print("Building Personal HTML page....")
@@ -119,6 +122,9 @@ def add_user():
     main()
 
 def write_log(individual):
+    global warning
+    warning = 0 # Resetting warning counter
+    
     current_time = datetime.now()
     file_to_write = f'{individual} accessed database at {current_time}'
     
@@ -128,6 +134,9 @@ def write_log(individual):
     send_email()
 
 def warning_log():
+    global warning
+    warning+=1
+    
     current_time = datetime.now()
     file_to_write = f"Unknown user tried to access database at {current_time}"
 
